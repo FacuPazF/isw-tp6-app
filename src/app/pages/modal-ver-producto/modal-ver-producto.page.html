@@ -1,0 +1,35 @@
+<ion-header class="ion-text-center">
+  <h1>I van y vienen pedidos</h1>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-button (click)="salir()"><ion-icon name="arrow-back"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Item</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="eliminarItem()"><ion-icon name="trash"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image ion-padding" no-scroll padding>
+  <ion-card>
+    <ion-card-header>
+      <h2>{{item.producto.nombre}}</h2>
+      <h5 style="color: #e04055">$ {{item.producto.precio}}</h5>
+    </ion-card-header>
+    <ion-card-content>
+      <img src="{{item.producto.imagen}}" alt="{{item.producto.nombre}}">
+      <p>{{item.producto.descripcion}}</p>
+      <div>
+        <div>
+          <ion-item lines="none" class="ion-padding-top"><h3>Cantidad</h3></ion-item>
+        </div>
+        <ion-item>
+          <ion-item slot="start" lines="none"><ion-button (click)="menosCantidad()"><ion-icon name="remove"></ion-icon></ion-button></ion-item>
+          <ion-item lines="none"><ion-label text-center>{{item.cantidad}}</ion-label></ion-item>
+          <ion-item slot="end" lines="none"><ion-button (click)="masCantidad()"><ion-icon name="add"></ion-icon></ion-button></ion-item>
+        </ion-item>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

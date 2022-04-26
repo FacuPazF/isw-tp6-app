@@ -1,0 +1,34 @@
+<ion-header class="ion-text-center">
+  <h1>I van y vienen pedidos</h1>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-button (click)="salir()"><ion-icon name="arrow-back"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Datos de Envío</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-image ion-padding" no-scroll padding>
+  <form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Dirección de envío</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item-group>
+        <ion-input type="text" placeholder="Calle (*)" formControlName="txCalle" ></ion-input>
+        <ion-input type="number" placeholder="Número de calle (*)" formControlName="txNumero" ></ion-input>
+        <ion-input type="text" placeholder="Referencias" formControlName="txReferencias" ></ion-input>
+        <ion-select placeholder="Provincia (*)" formControlName="cbProvincia" >
+          <ion-select-option *ngFor="let prov of provincias" [value]="prov.id">{{prov.nombre}}</ion-select-option>
+        </ion-select>
+        <ion-select placeholder="Localidad (*)"
+                    formControlName="cbLocalidad">
+          <ion-select-option *ngFor="let loc of localidades" [value]="loc.id">{{loc.nombre}}</ion-select-option>
+        </ion-select>
+        <ion-button type="submit" color="danger" expand="block">Siguiente</ion-button>
+      </ion-item-group>
+    </ion-card-content>
+  </ion-card>
+  </form>
+</ion-content>

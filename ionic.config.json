@@ -1,0 +1,7 @@
+{
+  "name": "isw-tp6-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
