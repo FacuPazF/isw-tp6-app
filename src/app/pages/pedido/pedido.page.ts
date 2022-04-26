@@ -11,6 +11,7 @@ import {IDomicilio} from '../../model/IDomicilio';
 import {IPago} from '../../model/IPago';
 import {ModalPagoPage} from '../modal-pago/modal-pago.page';
 import {UbicacionService} from '../../services/ubicacion-service.service';
+declare let $: any;
 
 @Component({
   selector: 'app-pedido',
@@ -24,6 +25,9 @@ export class PedidoPage implements OnInit {
   pago: IPago;
   esEfectivo = false;
   sePago = false;
+  esAntesPosible = false;
+  esFechaPactada = false;
+  fechaPactada = '';
 
   constructor(private modalCtrl: ModalController,
               private alertCtrl: AlertService,
@@ -163,6 +167,12 @@ export class PedidoPage implements OnInit {
     const {data} = await modal.onDidDismiss();
     if (data.datosEnvio) {
       this.domicilio = data.datosEnvio;
+      if (data.fechaPactada) {
+        this.fechaPactada = data.fechaPactada;
+        this.esFechaPactada = true;
+      } else {
+        this.esAntesPosible = true;
+      }
       this.completarDatosPago();
     }
   }
@@ -184,10 +194,6 @@ export class PedidoPage implements OnInit {
     } else {
       this.domicilio = null;
     }
-
-  }
-
-  seguirComprando() {
 
   }
 }

@@ -55,8 +55,8 @@ export class ModalPagoPage implements OnInit {
       txAnioVto: ['', Validators.required],
       txCvc: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(3),
         Validators.maxLength(4)]],
-      txApellidoTitular: ['', [Validators.required, Validators.pattern('^[a-z]+$')]],
-      txNombreTitular: ['', [Validators.required, Validators.pattern('^[a-z]+$')]],
+      txApellidoTitular: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+      txNombreTitular: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
       txMonto: ['', [Validators.required, Validators.pattern('^[0-9.,]+$')]]
     }),
     fgEfectivo: this.fb.group({

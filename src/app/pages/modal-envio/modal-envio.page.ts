@@ -6,6 +6,8 @@ import {IProvincia} from '../../model/IProvincia';
 import {ILocalidad} from '../../model/ILocalidad';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {AlertService} from '../../services/alert-service.service';
+import { format, parseISO } from 'date-fns';
+import {CustomValidators} from "../../shared/custom-validators";
 
 @Component({
   selector: 'app-modal-envio',
@@ -17,7 +19,6 @@ export class ModalEnvioPage implements OnInit {
   ionicForm: FormGroup;
   localidades: ILocalidad[];
   provincias: IProvincia[];
-  isSubmitted = false;
   seleccionoMedioEnvio = false;
   mostrarAlmanaque = false;
 
@@ -49,12 +50,14 @@ export class ModalEnvioPage implements OnInit {
       txNumero: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       txReferencias: [''],
       cbLocalidad: ['', Validators.required],
-      cbProvincia: ['', Validators.required]
+      cbProvincia: ['', Validators.required],
+      txFechaPactada: ['', [Validators.required, CustomValidators.fromDate(new Date())]],
     });
 
     this.cbProvincia.valueChanges.subscribe(res => {
       this.cargarLocalidades(res);
       this.cbLocalidad.setValue('');
+      this.cbLocalidad.enable();
     });
   }
 
@@ -91,15 +94,26 @@ export class ModalEnvioPage implements OnInit {
   }
 
   submitForm() {
-    this.isSubmitted = true;
-    if (!this.ionicForm.valid) {
-      this.alertCtrl.abrirAlert('Datos invalidos. Verifique la información ingresada.')
-      return false;
+    if (!(this.txNumero.valid) && (this.txCalle.valid) && (this.cbLocalidad.valid) && (this.cbProvincia.valid)) {
+      this.alertCtrl.abrirAlert('Datos invalidos. Verifique la información ingresada.');
+      return;
+    } else if (this.mostrarAlmanaque && !this.validarFechaPactada()) {
+      this.alertCtrl.abrirAlert('La fecha ingresada inválida');
+      return;
     } else {
       this.modalCtrl.dismiss({
         datosEnvio: this.guardarDomicilio(),
+        fechaPactada: this.mostrarAlmanaque ? format(parseISO(this.txFechaPactada.value.toString()), 'dd/MM/yyyy HH:mm') : null,
       });
     }
+  }
+
+  private validarFechaPactada() {
+    // const fecha = format(parseISO(this.txFechaPactada.value.toString()), 'dd/MM/yyyy HH:mm');
+    if(!(new Date().getTime() < new Date(this.txFechaPactada.value).getTime())) {
+      return false;
+    }
+    return true;
   }
 
   private guardarDomicilio(): IDomicilio {
@@ -155,4 +169,9 @@ export class ModalEnvioPage implements OnInit {
   get cbProvincia() {
     return this.ionicForm.get('cbProvincia');
   }
+
+  get txFechaPactada() {
+    return this.ionicForm.get('txFechaPactada');
+  }
+
 }

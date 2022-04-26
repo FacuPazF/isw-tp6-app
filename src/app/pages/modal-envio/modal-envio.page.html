@@ -1,5 +1,5 @@
 <ion-header class="ion-text-center">
-  <h1>I van y vienen pedidos</h1>
+  <h1>DeliverEat!</h1>
   <ion-toolbar color="danger">
     <ion-buttons slot="start">
       <ion-button (click)="salir()"><ion-icon name="arrow-back"></ion-icon></ion-button>
@@ -26,7 +26,9 @@
                     formControlName="cbLocalidad">
           <ion-select-option *ngFor="let loc of localidades" [value]="loc.id">{{loc.nombre}}</ion-select-option>
         </ion-select>
-        <ion-datetime presentation="date-time" *ngIf="mostrarAlmanaque"></ion-datetime>
+        <ion-datetime presentation="date-time" *ngIf="mostrarAlmanaque" formControlName="txFechaPactada">
+          <div slot="title">Fecha pactada de envío</div>
+        </ion-datetime>
         <ion-button type="submit" color="danger" expand="block">Siguiente</ion-button>
       </ion-item-group>
     </ion-card-content>

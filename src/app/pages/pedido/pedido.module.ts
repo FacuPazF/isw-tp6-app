@@ -12,6 +12,7 @@ import {ModalEnvioPageModule} from '../modal-envio/modal-envio.module';
 import {ModalEnvioPage} from '../modal-envio/modal-envio.page';
 import {ModalPagoPage} from '../modal-pago/modal-pago.page';
 import {ModalPagoPageModule} from '../modal-pago/modal-pago.module';
+import * as $ from 'jquery';
 
 @NgModule({
   entryComponents: [
