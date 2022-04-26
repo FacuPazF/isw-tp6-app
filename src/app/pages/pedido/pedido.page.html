@@ -12,14 +12,14 @@
 
 
 <ion-content class="background-image ion-padding" no-scroll>
-  <ion-accordion-group [multiple]="true" [expand]="true">
+  <ion-accordion-group>
     <ion-accordion value="Productos">
       <ion-item slot="header">
         <ion-icon slot="start" name="cart"></ion-icon>
         <ion-label>Productos</ion-label>
       </ion-item>
   <ion-list slot="content" [ngModel]="pedido?.detallePedido" name="items" ngDefaultControl>
-    <ion-item *ngFor="let item of pedido?.detallePedido" (click)="verItem(item)">
+    <ion-item *ngFor="let item of pedido?.detallePedido" (click)="verItem(item)" [disabled]="sePago">
       <ion-avatar slot="start">
         <img src="{{item.producto?.imagen}}" alt="{{item.producto?.nombre}}">
       </ion-avatar>
@@ -59,12 +59,38 @@
             <ion-item>
               <ion-label>Referencias: {{domicilio.referencia}}</ion-label>
             </ion-item><ion-item>
-              <ion-label>Ciudad: {{domicilio.idCiudad}}</ion-label>
+              <ion-label>Ciudad: {{Ciudad}}</ion-label>
             </ion-item>
         </ion-list>
       </ion-accordion>
     </ion-accordion-group>
   </div>
 
+  <div *ngIf="pago">
+    <ion-accordion-group>
+      <ion-accordion value="Pago">
+        <ion-item slot="header">
+          <ion-icon slot="start" name="cash"></ion-icon>
+          <ion-label>Pago</ion-label>
+        </ion-item>
+        <ion-list slot="content">
+          <ion-item>
+            <ion-label>Tipo de Pago: {{TipoPago}}</ion-label>
+          </ion-item>
+          <div *ngIf="esEfectivo">
+          <ion-item>
+            <ion-label>Monto a abonar: $ {{pago.montoAbonar}}</ion-label>
+          </ion-item>
+            <ion-item>
+          <ion-label>Vuelto: $ {{pago.vuelto}}</ion-label>
+        </ion-item>
+          </div>
+        </ion-list>
+      </ion-accordion>
+    </ion-accordion-group>
+  </div>
 
+  <div *ngIf="sePago">
+      <ion-button color="danger" expand="block" href="/">Seguir Comprando</ion-button>
+  </div>
 </ion-content>

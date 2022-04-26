@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {ModalController} from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
 import {IDomicilio} from '../../model/IDomicilio';
 import {UbicacionService} from '../../services/ubicacion-service.service';
 import {IProvincia} from '../../model/IProvincia';
 import {ILocalidad} from '../../model/ILocalidad';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import {AlertService} from "../../services/alert-service.service";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {AlertService} from '../../services/alert-service.service';
 
 @Component({
   selector: 'app-modal-envio',
@@ -17,18 +17,30 @@ export class ModalEnvioPage implements OnInit {
   ionicForm: FormGroup;
   localidades: ILocalidad[];
   provincias: IProvincia[];
-  formValido = false;
   isSubmitted = false;
+  seleccionoMedioEnvio = false;
+  mostrarAlmanaque = false;
 
   constructor(private modalCtrl: ModalController,
               private ubicacionService: UbicacionService,
               private fb: FormBuilder,
-              private alertCtrl: AlertService) { }
+              private alertCtrl: AlertService,
+              private alertController: AlertController) { }
 
   ngOnInit() {
     this.inicializarDomicilio();
+    this.inicializarMetodoEnvio();
     this.cargarProvincias();
     this.crearForm();
+  }
+
+  private inicializarMetodoEnvio() {
+    this.abrirAlertMetodoEnvio().then(res => {
+      if (res === 'pactarFecha') {
+        this.mostrarAlmanaque = true;
+      }
+      this.seleccionoMedioEnvio = true;
+    });
   }
 
   private crearForm() {
@@ -98,6 +110,31 @@ export class ModalEnvioPage implements OnInit {
     return this.domicilio;
   }
 
+  private async abrirAlertMetodoEnvio(): Promise<string> {
+    return new Promise(async (resolve) => {
+      const alert = await this.alertController.create({
+        header: 'Confirmación',
+        message: `<strong>A continuación debe seleccionar el metodo de envio,
+                    si desea recibir su pedido lo antes posible o pactar una fecha y hora futura.</strong>`,
+        buttons: [
+          {
+            text: 'Pactar fecha',
+            role: 'pactarFecha',
+            cssClass: 'secondary',
+            id: 'ft-button',
+            handler: (blah) => resolve('pactarFecha')
+          }, {
+            text: 'Lo antes posible',
+            id: 'antesPosible',
+            handler: () => resolve('antesPosible')
+          }
+        ],
+        backdropDismiss: false,
+      });
+
+      await alert.present();
+    });
+  }
   // Todo Form Getters
   get txCalle() {
     return this.ionicForm.get('txCalle');

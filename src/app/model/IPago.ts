@@ -7,4 +7,6 @@ export interface IPago {
   apellidoTitular: string;
   nombreTitular: string;
   monto: number;
+  montoAbonar: number;
+  vuelto: number;
 }

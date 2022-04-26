@@ -19,4 +19,12 @@ export class UbicacionService {
     return provincias;
   }
 
+  obtenerLocalidadPorId(idLocalidad: number): ILocalidad {
+    return localidades.find(loc => loc.id === idLocalidad);
+  }
+
+  obtenerProvinciaPorId(idProvincia: number): IProvincia {
+    return provincias.find(prov => prov.id === idProvincia);
+  }
+
 }

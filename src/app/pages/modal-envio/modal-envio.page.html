@@ -10,7 +10,7 @@
 
 <ion-content class="background-image ion-padding" no-scroll padding>
   <form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate>
-  <ion-card>
+  <ion-card *ngIf="seleccionoMedioEnvio">
     <ion-card-header>
       <ion-card-title>Dirección de envío</ion-card-title>
     </ion-card-header>
@@ -26,6 +26,7 @@
                     formControlName="cbLocalidad">
           <ion-select-option *ngFor="let loc of localidades" [value]="loc.id">{{loc.nombre}}</ion-select-option>
         </ion-select>
+        <ion-datetime presentation="date-time" *ngIf="mostrarAlmanaque"></ion-datetime>
         <ion-button type="submit" color="danger" expand="block">Siguiente</ion-button>
       </ion-item-group>
     </ion-card-content>

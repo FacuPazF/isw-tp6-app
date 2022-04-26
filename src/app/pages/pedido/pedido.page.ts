@@ -8,8 +8,9 @@ import {ModalEnvioPage} from '../modal-envio/modal-envio.page';
 import {IDetallePedido} from '../../model/IDetallePedido';
 import {AlertService} from '../../services/alert-service.service';
 import {IDomicilio} from '../../model/IDomicilio';
-import {IPago} from "../../model/IPago";
-import {ModalPagoPage} from "../modal-pago/modal-pago.page";
+import {IPago} from '../../model/IPago';
+import {ModalPagoPage} from '../modal-pago/modal-pago.page';
+import {UbicacionService} from '../../services/ubicacion-service.service';
 
 @Component({
   selector: 'app-pedido',
@@ -21,9 +22,12 @@ export class PedidoPage implements OnInit {
   total = 0;
   domicilio: IDomicilio;
   pago: IPago;
+  esEfectivo = false;
+  sePago = false;
 
   constructor(private modalCtrl: ModalController,
-              private alertCtrl: AlertService) {
+              private alertCtrl: AlertService,
+              private ubicacionService: UbicacionService) {
   }
 
   ngOnInit() {
@@ -87,6 +91,8 @@ export class PedidoPage implements OnInit {
         apellidoTitular: '',
         nombreTitular: '',
         monto: null,
+        montoAbonar: null,
+        vuelto: null,
       },
     };
     this.calcularTotal();
@@ -135,8 +141,17 @@ export class PedidoPage implements OnInit {
       });
   }
 
-  obtenerCiudad() {
+  get Ciudad() {
+    const localidad = this.ubicacionService.obtenerLocalidadPorId(this.domicilio.idCiudad);
+    const provincia = this.ubicacionService.obtenerProvinciaPorId(localidad.idProvincia);
+    return `${localidad.nombre}, ${provincia.nombre}`;
+  }
 
+  get TipoPago(): string {
+    let tipo = '';
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    this.pago.idTipoPago === 1 ? tipo = 'Efectivo' : tipo = 'Tarjeta VISA';
+    return tipo;
   }
 
   async completarDatosEnvio() {
@@ -164,10 +179,15 @@ export class PedidoPage implements OnInit {
     const {data} = await modal.onDidDismiss();
     if (data.datosPago) {
       this.pago = data.datosPago;
-      console.log(this.pago);
+      this.pago.idTipoPago === 1 ? this.esEfectivo = true : this.esEfectivo = false;
+      this.sePago = true;
     } else {
       this.domicilio = null;
     }
+
+  }
+
+  seguirComprando() {
 
   }
 }

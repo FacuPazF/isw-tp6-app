@@ -41,6 +41,8 @@ export class ModalPagoPage implements OnInit {
       apellidoTitular: '',
       cvc: null,
       monto: null,
+      montoAbonar: null,
+      vuelto: null,
     };
   }
 
@@ -75,6 +77,9 @@ export class ModalPagoPage implements OnInit {
 
   private crearPagoEfectivo() {
     this.pago.idTipoPago = 1;
+    this.pago.monto = this.montoTotal;
+    this.pago.montoAbonar = +this.txMontoAbonar.value.toString();
+    this.pago.vuelto = this.montoVuelto;
   }
 
   confirmarEfectivo() {
