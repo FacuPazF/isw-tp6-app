@@ -94,11 +94,9 @@ export class ModalEnvioPage implements OnInit {
   }
 
   submitForm() {
-    if (!(this.txNumero.valid) && (this.txCalle.valid) && (this.cbLocalidad.valid) && (this.cbProvincia.valid)) {
-      this.alertCtrl.abrirAlert('Datos invalidos. Verifique la información ingresada.');
+    if (!this.validarControles()) {
       return;
     } else if (this.mostrarAlmanaque && !this.validarFechaPactada()) {
-      this.alertCtrl.abrirAlert('La fecha ingresada inválida');
       return;
     } else {
       this.modalCtrl.dismiss({
@@ -108,9 +106,34 @@ export class ModalEnvioPage implements OnInit {
     }
   }
 
+  private validarControles(): boolean {
+    if (!this.txCalle.valid) {
+      this.alertCtrl.abrirAlert('El nombre de la calle no es válido');
+      return false;
+    }
+    if (!this.txNumero.valid) {
+      this.alertCtrl.abrirAlert('El número de la dirección no es válido');
+      return false;
+    }
+    if (!this.cbProvincia.valid) {
+      this.alertCtrl.abrirAlert('Debe seleccionar una provincia');
+      return false;
+    }
+    if (!this.cbLocalidad.valid) {
+      this.alertCtrl.abrirAlert('Debe seleccionar una ciudad');
+      return false;
+    }
+    return true;
+  }
+
   private validarFechaPactada() {
     // const fecha = format(parseISO(this.txFechaPactada.value.toString()), 'dd/MM/yyyy HH:mm');
-    if(!(new Date().getTime() < new Date(this.txFechaPactada.value).getTime())) {
+    if (!(new Date().getTime() < new Date(this.txFechaPactada.value).getTime())) {
+      this.alertCtrl.abrirAlert('La fecha ingresada no puede ser anterior a la fecha actual');
+      return false;
+    }
+    if (Math.round((new Date(this.txFechaPactada.value).getTime() - new Date().getTime())/(1000*60*60*24)) > 10) {
+      this.alertCtrl.abrirAlert('La fecha ingresada no puede superar 10 dias de la fecha actual');
       return false;
     }
     return true;

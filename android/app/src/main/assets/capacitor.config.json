@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "isw-tp6-app",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

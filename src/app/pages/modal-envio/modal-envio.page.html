@@ -22,7 +22,7 @@
         <ion-select placeholder="Provincia (*)" formControlName="cbProvincia" >
           <ion-select-option *ngFor="let prov of provincias" [value]="prov.id">{{prov.nombre}}</ion-select-option>
         </ion-select>
-        <ion-select placeholder="Localidad (*)"
+        <ion-select placeholder="Ciudad (*)"
                     formControlName="cbLocalidad">
           <ion-select-option *ngFor="let loc of localidades" [value]="loc.id">{{loc.nombre}}</ion-select-option>
         </ion-select>
