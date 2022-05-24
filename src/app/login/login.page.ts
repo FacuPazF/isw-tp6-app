@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
 
   iniciarSesion() {
     if (this.validarLogin()) {
-     const usuarioLogueado = this.usuarioService.iniciarSesion(this.usuario, this.password);
+     const usuarioLogueado = this.usuarioService.iniciarSesion(this.usuario.toLowerCase(), this.password);
      console.log(usuarioLogueado);
      if(!usuarioLogueado) {
        this.alert.abrirAlert('Usuario y/o contraseña invalidos.');
